@@ -1,0 +1,38 @@
+{
+  "name": "paper-autocomplete",
+  "version": "0.0.1",
+  "authors": [
+    "Rose <rosepriyakannath@gmail.com>"
+  ],
+  "description": "A type-ahead web component for Polymer 1.0.0 or above",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "autocomplete",
+    "paper-autocomplete"
+  ],
+  "main": "paper-autocomplete.html",
+  "license": "MIT",
+  "homepage": "https://github.com/tinkerD/paper-autocomplete",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/",
+    "/src/",
+    "/gulpfile.js",
+    "/package.json"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "iron-dropdown": "PolymerElements/iron-dropdown",
+    "paper-material": "PolymerElements/paper-material",
+    "paper-menu": "PolymerElements/paper-menu#^1.2.2",
+    "paper-item": "PolymerElements/paper-item",
+    "paper-input": "PolymerElements/paper-input#^1.1.11",
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}

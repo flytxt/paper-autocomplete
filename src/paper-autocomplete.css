@@ -1,0 +1,16 @@
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+:host(.expand) iron-dropdown {
+  width:100%;
+}
+
+iron-dropdown {
+  @apply(--content-card);
+}
+
+iron-dropdown paper-item {
+  cursor: pointer;
+}
