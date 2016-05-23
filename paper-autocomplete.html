@@ -45,10 +45,6 @@ THE SOFTWARE.
   width:100%;
 }
 
-iron-dropdown {
-  @apply(--content-card);
-}
-
 iron-dropdown paper-item {
   cursor: pointer;
 }</style>
@@ -56,14 +52,14 @@ iron-dropdown paper-item {
     <content select="paper-input" class="dropdown-trigger"></content>
     <template is="dom-if" if="[[ _suggestions ]]">
       <iron-dropdown id="menudropdown" horizontal-align="right" vertical-align="top">
-        <paper-material class="dropdown-content">
-          <paper-menu id="select">
+        <paper-listbox id="select" class="dropdown-content">
+          <!-- <paper-menu > -->
             <template is="dom-repeat" items="[[ _suggestions ]]" as="s">
               <paper-item on-tap="_useSuggestion" suggestion="{{s}}" value="[[_valueOf(s)]]">
                 <span value="[[_valueOf(s)]]">[[_labelOf(s)]]</span>
               </paper-item>
             </template>
-          </paper-menu>
+          <!-- </paper-menu> -->
         </paper-material>
       </iron-dropdown>
     </template>
