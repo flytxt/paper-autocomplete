@@ -94,6 +94,7 @@ Polymer({
         setTimeout(function() {
           me.menuDropdown = me.querySelector('#menudropdown');
           me.menuDropdown.open();
+          me.menuDropdown.focus();
         }, me._redrawFix);
       }
     });
@@ -132,13 +133,15 @@ Polymer({
    */
   _prepareAvailable: function(values) {
     var me = this;
+    var valueField = me.valueField;
+    var labelField = me.labelField;
     return values.map(function(value, i) {
       if (typeof value === 'string') {
         if (!value || !value.length) { throw 'Can\'t accept falsy value in choices list. Item ' + i + ': `' + value + '`'; }
-        return {
-          [me.valueField]: value,
-          [me.labelField]: value
-        };
+        var item = {};
+        item[valueField] = value;
+        item[labelField] = value;
+        return item;
       } else {
         return value;
       }
