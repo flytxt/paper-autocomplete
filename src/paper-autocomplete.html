@@ -42,11 +42,9 @@ THE SOFTWARE.
     <template is="dom-if" if="[[ _suggestions ]]">
       <iron-dropdown id="menudropdown" horizontal-align="right" vertical-align="top">
         <paper-material class="dropdown-content">
-          <paper-menu id="select">
+          <paper-menu id="select" attr-for-selected="value" selected="{{ value }}">
             <template is="dom-repeat" items="[[ _suggestions ]]" as="s">
-              <paper-item on-tap="_useSuggestion" suggestion="{{s}}" value="[[_valueOf(s)]]">
-                <span value="[[_valueOf(s)]]">[[_labelOf(s)]]</span>
-              </paper-item>
+              <paper-item on-tap="_useSuggestion" value="[[s]]">[[_labelOf(s)]]</paper-item>
             </template>
           </paper-menu>
         </paper-material>

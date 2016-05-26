@@ -41,11 +41,6 @@ describe('<paper-autocomplete>', function() {
       expect(tH1._threshold).to.be.a('number');
     });
 
-    it('defines "value" property', function() {
-      expect(tH1.properties).to.include.keys('value');
-      expect(tH1.value).to.be.a('string');
-    });
-
     it('defines "append" property', function() {
       expect(tH1.properties).to.include.keys('append');
       expect(tH1.append).to.be.a('boolean');
@@ -68,7 +63,7 @@ describe('<paper-autocomplete>', function() {
     var tH2;
 
     beforeEach(function() {
-      tH2 = fixture('tH2');
+      tH2 = fixture('tH1');
       tH2.supplier = valueSupplier;
     });
 
@@ -99,7 +94,7 @@ describe('<paper-autocomplete>', function() {
     var tH3;
 
     before(function() {
-      tH3 = fixture('tH3');
+      tH3 = fixture('tH2');
       tH3.supplier = valueSupplier;
     });
 
