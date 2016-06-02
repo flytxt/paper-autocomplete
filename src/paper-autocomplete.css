@@ -1,12 +1,23 @@
 :host {
   position: relative;
   display: inline-block;
+
+  @apply(--paper-autocomplete);
+}
+
+iron-dropdown {
+  @apply(--paper-autocomplete-dropdown);
 }
 
 :host(.expand) iron-dropdown {
   width:100%;
 }
 
+paper-menu {
+  @apply(--paper-autocomplete-menu);
+}
+
 iron-dropdown paper-item {
   cursor: pointer;
+  @apply(--paper-autocomplete-item);
 }

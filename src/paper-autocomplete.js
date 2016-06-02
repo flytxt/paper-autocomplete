@@ -114,7 +114,9 @@ Polymer({
     clearTimeout(me._changeTimeOut);
     clearTimeout(me._closeTimeout);
     me._closeTimeout = setTimeout(function() {
-      me.menuDropdown.close();
+      if (me.menuDropdown) {
+        me.menuDropdown.close();
+      }
     }, this._closeDelay);
   },
   /**

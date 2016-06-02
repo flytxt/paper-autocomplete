@@ -33,20 +33,42 @@ THE SOFTWARE.
   <paper-input label="Example" value="{{inputValue}}"></paper-input>
 </paper-autocomplete>
 
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+| Custom property | Description |
+| --- | --- | --- |
+| `--paper-autocomplete` | Mixin applied to the element |
+| `--paper-autocomplete-dropdown` | Mixin applied to the dropdown |
+| `--paper-autocomplete-item` | Mixin applied to the paper-item |
+| `--paper-autocomplete-menu` | Mixin applied to the paper-menu |
+
  -->
 
 <dom-module id="paper-autocomplete">
   <style type="css" is="custom-style">:host {
   position: relative;
   display: inline-block;
+
+  @apply(--paper-autocomplete);
+}
+
+iron-dropdown {
+  @apply(--paper-autocomplete-dropdown);
 }
 
 :host(.expand) iron-dropdown {
   width:100%;
 }
 
+paper-menu {
+  @apply(--paper-autocomplete-menu);
+}
+
 iron-dropdown paper-item {
   cursor: pointer;
+  @apply(--paper-autocomplete-item);
 }</style>
   <template>
     <content select="paper-input" class="dropdown-trigger"></content>
@@ -178,7 +200,9 @@ iron-dropdown paper-item {
     clearTimeout(me._changeTimeOut);
     clearTimeout(me._closeTimeout);
     me._closeTimeout = setTimeout(function() {
-      me.menuDropdown.close();
+      if (me.menuDropdown) {
+        me.menuDropdown.close();
+      }
     }, this._closeDelay);
   },
   /**
