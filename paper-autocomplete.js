@@ -17,9 +17,16 @@ Polymer({
       value: 500
     },
     /**
+     * value of each item in the list
+     */
+    valueField: {
+      type: String,
+      value: 'value'
+    },
+    /**
      * Text to be shown in the dropdown for each value
      */
-    label: {
+    labelField: {
       type: String,
       value: 'name'
     },
@@ -81,12 +88,12 @@ Polymer({
     var me = this;
     this.supplier(this.input.value, function(suggestions) {
       if (suggestions.length <= 0) { return; }
-      me._suggestions = suggestions;
+      me._suggestions = me._prepareAvailable(suggestions);
+      me.value = me.input.value;
       if (me.focused) {
         setTimeout(function() {
           me.menuDropdown = me.querySelector('#menudropdown');
           me.menuDropdown.open();
-          me.menuDropdown.focus();
         }, me._redrawFix);
       }
     });
@@ -114,10 +121,28 @@ Polymer({
     clearTimeout(me._changeTimeOut);
     clearTimeout(me._closeTimeout);
     me._closeTimeout = setTimeout(function() {
-      if (me.menuDropdown) {
-        me.menuDropdown.close();
-      }
+      me.menuDropdown.close();
     }, this._closeDelay);
+  },
+  /**
+   * Prepares the list of suggestions.
+   *
+   * @param {list} suggestions.
+   * @return {string} value.
+   */
+  _prepareAvailable: function(values) {
+    var me = this;
+    return values.map(function(value, i) {
+      if (typeof value === 'string') {
+        if (!value || !value.length) { throw 'Can\'t accept falsy value in choices list. Item ' + i + ': `' + value + '`'; }
+        return {
+          [me.valueField]: value,
+          [me.labelField]: value
+        };
+      } else {
+        return value;
+      }
+    });
   },
   /**
    * Setter
@@ -138,24 +163,42 @@ Polymer({
     return this.$.select.selected;
   },
   /**
+   * Prepares select/option item's value.
+   *
+   * @param {object} Selected object.
+   * @return {string} value.
+   */
+  _valueOf: function(hint) {
+    if (this.valueField === null) {
+      return hint || '';
+    }
+    return typeof hint === 'object' && hint ? hint[this.valueField] : hint || '';
+  },
+  /**
    * Prepares select/option item's display.
    *
    * @param {object} Selected object.
    * @return {string} label.
    */
   _labelOf: function(hint) {
-    if (this.label === null) {
+    if (this.labelField === null) {
       return hint || '';
     }
-    return typeof hint === 'object' && hint ? hint[this.label] : hint || '';
+    return typeof hint === 'object' && hint ? hint[this.labelField] : hint || '';
   },
   /**
    * Handler for each item selection from dropdown
-   * 
-   * @param {event}
-   *          tap event.
+   *
+   * @param {event} tap event.
    */
-  _useSuggestion: function() {
+  _useSuggestion: function(e) {
+    if (this.append) {
+      this.input.value = this.input.value.trim() + ' ' + e.target.value;
+    } else {
+      this.input.value = e.target.value;
+    }
+    this.querySelector('paper-input').value = this.input.value;
+    this.set('value', this.input.value);
     this.input.focus();
     this._close();
   },
@@ -165,6 +208,7 @@ Polymer({
   _setup: function() {
     var me = this;
     var input = me.input = me.querySelector('paper-input').$.input;
+    me.value = input.value;
     input.addEventListener('keyup', me._open.bind(me));
     input.addEventListener('focus', me._open.bind(me));
     input.addEventListener('blur', me._close.bind(me));
