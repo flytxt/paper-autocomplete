@@ -1,21 +1,26 @@
 Polymer({
-  is: 'paper-autocomplete',// attributes="selected"
+  is: 'paper-autocomplete',
+
   properties: {
+
     /**
      * time in milliseconds after which an update is called
      */
     _changeTimeOut: Number,
+
     /**
      * time in milliseconds after which the menu is closed
      */
     _closeTimeout: Number,
+
     /**
-     * milliseconds after which the menu is opened 
+     * milliseconds after which the menu is opened
      */
     _redrawFix: {
       type: Number,
       value: 500
     },
+
     /**
      * Text to be shown in the dropdown for each value
      */
@@ -23,10 +28,12 @@ Polymer({
       type: String,
       value: 'name'
     },
+
     /**
      * set to true when the element is in focus
      */
     focused: Boolean,
+
     /**
      * the list of values from which the value can be chosen
      */
@@ -34,6 +41,7 @@ Polymer({
       type: Array,
       value: []
     },
+
     /**
      * Threshold after which the supplier is triggered
      */
@@ -41,6 +49,7 @@ Polymer({
       type: Number,
       value: 400,
     },
+
     /**
      * Selected value
      */
@@ -49,13 +58,15 @@ Polymer({
       reflectToAttribute: true,
       notify: true
     },
+
     /**
-     * If true, value will be appended to the existing one, rather than replacing it 
+     * If true, value will be appended to the existing one, rather than replacing it
      */
     append: {
       type: Boolean,
       value: false,
     },
+
     /**
      * Menu-close delay in milliseconds
      */
@@ -63,6 +74,7 @@ Polymer({
       type: Number,
       value: 150
     },
+
     /**
      * The suggestions supplier
      */
@@ -71,9 +83,10 @@ Polymer({
       notify: true
     }
   },
+
   /**
    * Prepares select/option item's value.
-   *
+   * 
    * @param {object} Selected object.
    * @return {string} value.
    */
@@ -91,9 +104,10 @@ Polymer({
       }
     });
   },
+
   /**
    * Prepares select/option item's value.
-   *
+   * 
    * @param {object} Selected object.
    * @return {string} value.
    */
@@ -102,9 +116,10 @@ Polymer({
     clearTimeout(this._changeTimeOut);
     this._changeTimeOut = setTimeout(this._update.bind(this), this._threshold);
   },
+
   /**
    * to close the drop-down
-   *
+   * 
    * @param {object} Selected object.
    * @return {string} value.
    */
@@ -119,9 +134,10 @@ Polymer({
       }
     }, this._closeDelay);
   },
+
   /**
    * Setter
-   *
+   * 
    * @param {object} Selected object.
    * @return {string} value.
    */
@@ -129,36 +145,37 @@ Polymer({
     var me = this;
     me.$.select.selected = e.target.selected;
   },
+
   /**
    * Getter
-   *
+   * 
    * @return {string} value.
    */
   getValue: function() {
     return this.$.select.selected;
   },
+
   /**
    * Prepares select/option item's display.
-   *
+   * 
    * @param {object} Selected object.
    * @return {string} label.
    */
   _labelOf: function(hint) {
-    if (this.label === null) {
-      return hint || '';
-    }
+    if (this.label === null) { return hint || ''; }
     return typeof hint === 'object' && hint ? hint[this.label] : hint || '';
   },
+
   /**
    * Handler for each item selection from dropdown
    * 
-   * @param {event}
-   *          tap event.
+   * @param {event} tap event.
    */
   _useSuggestion: function() {
     this.input.focus();
     this._close();
   },
+
   /**
    * The intial setup, binding focus, keyup and blur event-handlers.
    */
@@ -169,6 +186,7 @@ Polymer({
     input.addEventListener('focus', me._open.bind(me));
     input.addEventListener('blur', me._close.bind(me));
   },
+
   attached: function() {
     this._setup();
   }

@@ -4,44 +4,21 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
-var inlinesource = require('gulp-inline-source');
 var bump = require('gulp-bump');
-var src = ['src/*.js',
-           'src/*.html',
+var src = ['paper-autocomplete.html',
+           'paper-autocomplete.js',
            'test/*.js',
            'test/*.html'];
 
 //Lint JavaScript
-gulp.task('jshint', function () {
+gulp.task('lint', function () {
   return gulp.src(src)
-    .pipe($.jshint.extract()) // Extract JS from .html files
+    .pipe($.if('*.html', $.htmlExtract()))
     .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'));
-});
-
-//JavaScript Code Style
-gulp.task('jscs', function () {
-  return gulp.src([
-      'src/*.js',
-      'test/*.js'
-    ])
-    .pipe($.jscs());
-});
-
-gulp.task('inlinesource', function () {
-  debugger;
-  var options = {
-    compress: false,
-    handlers: [function(source, context, next) {
-      if(source.type === 'css') {
-        source.attributes.is = 'custom-style';
-      }
-      next();
-    }]
-  };
-  return gulp.src('./src/paper-autocomplete.html')
-    .pipe(inlinesource(options))
-    .pipe(gulp.dest('./'));
+    .pipe($.jscs())
+    .pipe($.jscsStylish.combineWithHintResults())
+    .pipe($.jshint.reporter('jshint-stylish'))
+    .pipe($.jshint.reporter('fail'));
 });
 
 gulp.task('bump', function(){
@@ -52,10 +29,10 @@ gulp.task('bump', function(){
 
 gulp.task('default', function (callback) {
   runSequence(
-    ['jshint', 'jscs', 'inlinesource'],
+    'lint',
     callback);
 });
 
 gulp.task('watch', function () {
-  gulp.watch(src.concat('src/*.css'), ['default']);
+  gulp.watch(src, ['default']);
 });
