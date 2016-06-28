@@ -11,7 +11,7 @@ describe('<paper-autocomplete>', function() {
 
     before(function() {
       tH1 = fixture('tH1');
-      tH1.supplier = valueSupplier;
+      tH1.source = valueSupplier;
     });
     
     it('defines "_changeTimeOut" property', function() {
@@ -52,9 +52,9 @@ describe('<paper-autocomplete>', function() {
       expect(tH1._closeDelay).to.be.a('number');
     });
 
-    it('defines "supplier" property', function() {
-      expect(tH1.properties).to.include.keys('supplier');
-      expect(tH1.supplier).to.be.an('function');
+    it('defines "source" property', function() {
+      expect(tH1.properties).to.include.keys('source');
+      expect(tH1.source).to.be.an('function');
     });
 
   });
@@ -64,7 +64,7 @@ describe('<paper-autocomplete>', function() {
 
     beforeEach(function() {
       tH2 = fixture('tH1');
-      tH2.supplier = valueSupplier;
+      tH2.source = valueSupplier;
     });
 
     it('should open dropdown on focus', function(done) {
@@ -95,7 +95,7 @@ describe('<paper-autocomplete>', function() {
 
     before(function() {
       tH3 = fixture('tH2');
-      tH3.supplier = valueSupplier;
+      tH3.source = valueSupplier;
     });
 
     it('should select single value on item tap', function(done) {

@@ -22,9 +22,18 @@ Polymer({
     },
 
     /**
+     * Value to be set in the element for each selection
+     */
+    attrForValue: {
+      type: String,
+      value: 'value',
+      reflectToAttribute: true
+    },
+
+    /**
      * Text to be shown in the dropdown for each value
      */
-    label: {
+    attrForLabel: {
       type: String,
       value: 'name'
     },
@@ -43,7 +52,7 @@ Polymer({
     },
 
     /**
-     * Threshold after which the supplier is triggered
+     * Threshold after which the source is triggered
      */
     _threshold: {
       type: Number,
@@ -68,6 +77,15 @@ Polymer({
     },
 
     /**
+     * the selected object
+     */
+    selected: {
+      type: Object,
+      notify: true,
+      observer: '_useSuggestion'
+    },
+
+    /**
      * Menu-close delay in milliseconds
      */
     _closeDelay: {
@@ -76,9 +94,9 @@ Polymer({
     },
 
     /**
-     * The suggestions supplier
+     * The suggestions source
      */
-    supplier: {
+    source: {
       type: Object,
       notify: true
     }
@@ -87,12 +105,13 @@ Polymer({
   /**
    * Prepares select/option item's value.
    * 
-   * @param {object} Selected object.
+   * @param {object}
+   *          Selected object.
    * @return {string} value.
    */
   _update: function() {
     var me = this;
-    this.supplier(this.input.value, function(suggestions) {
+    this.source(this.input.value, function(suggestions) {
       if (suggestions.length <= 0) { return; }
       me._suggestions = suggestions;
       if (me.focused) {
@@ -108,7 +127,8 @@ Polymer({
   /**
    * Prepares select/option item's value.
    * 
-   * @param {object} Selected object.
+   * @param {object}
+   *          Selected object.
    * @return {string} value.
    */
   _open: function() {
@@ -118,9 +138,18 @@ Polymer({
   },
 
   /**
+   * Clears the input text
+   */
+  _clear: function() {
+    this.selected = undefined;
+    this._close();
+  },
+
+  /**
    * to close the drop-down
    * 
-   * @param {object} Selected object.
+   * @param {object}
+   *          Selected object.
    * @return {string} value.
    */
   _close: function() {
@@ -138,12 +167,13 @@ Polymer({
   /**
    * Setter
    * 
-   * @param {object} Selected object.
+   * @param {object}
+   *          Selected object.
    * @return {string} value.
    */
-  setValue: function(e) {
+  setValue: function(hint) {
     var me = this;
-    me.$.select.selected = e.target.selected;
+    return typeof hint === 'object' && hint ? hint[this.attrForValue] : hint || '';
   },
 
   /**
@@ -152,28 +182,32 @@ Polymer({
    * @return {string} value.
    */
   getValue: function() {
-    return this.$.select.selected;
+    return this.value;
   },
 
   /**
    * Prepares select/option item's display.
    * 
-   * @param {object} Selected object.
+   * @param {object}
+   *          Selected object.
    * @return {string} label.
    */
   _labelOf: function(hint) {
-    if (this.label === null) { return hint || ''; }
-    return typeof hint === 'object' && hint ? hint[this.label] : hint || '';
+    if (this.attrForLabel === null) { return hint || ''; }
+    return hint && typeof hint === 'object'? hint[this.attrForLabel] : hint || '';
   },
 
   /**
    * Handler for each item selection from dropdown
    * 
-   * @param {event} tap event.
+   * @param {event}
+   *          tap event.
    */
-  _useSuggestion: function() {
-    this.input.focus();
-    this._close();
+  _useSuggestion: function(item) {
+    var me = this;
+    me.value = me.input.value = me.setValue(item);
+    me.paperInput.value = me._labelOf(item);
+    me._close();
   },
 
   /**
@@ -182,6 +216,8 @@ Polymer({
   _setup: function() {
     var me = this;
     var input = me.input = me.querySelector('paper-input').$.input;
+    me.paperInput = me.querySelector('paper-input');
+    this.value = input.value;
     input.addEventListener('keyup', me._open.bind(me));
     input.addEventListener('focus', me._open.bind(me));
     input.addEventListener('blur', me._close.bind(me));

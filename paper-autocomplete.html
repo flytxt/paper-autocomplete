@@ -23,8 +23,11 @@ THE SOFTWARE.
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-input/paper-input.html">
 
 <!-- Demo
@@ -54,7 +57,13 @@ The following custom properties and mixins are available for styling:
 
       @apply(--paper-autocomplete);
     }
-
+    .content-wrapper {
+      @apply(--layout-horizontal);
+      @apply(--layout-end);
+    }
+    .content-wrapper paper-icon-button {
+      margin-left: -1.6em;
+    }
     iron-dropdown {
       @apply(--paper-autocomplete-dropdown);
     }
@@ -68,18 +77,21 @@ The following custom properties and mixins are available for styling:
     }
 
     iron-dropdown paper-item {
-      cursor: pointer;
+     cursor: pointer;
      @apply(--paper-autocomplete-item);
     }
   </style>
   <template>
-    <content select="paper-input" class="dropdown-trigger"></content>
+    <div class="content-wrapper">
+      <content select="paper-input" class="dropdown-trigger"></content>
+      <paper-icon-button id="clear" icon="clear" on-click="_clear" no-ripple hidden$="{{!value}}"></paper-icon-button>
+    </div>
     <template is="dom-if" if="[[ _suggestions ]]">
-      <iron-dropdown id="menudropdown" horizontal-align="left" vertical-align="bottom">
+      <iron-dropdown id="menudropdown" horizontal-align="right" vertical-align="top">
         <paper-material class="dropdown-content">
-          <paper-menu id="select" attr-for-selected="value" selected="{{ value }}">
+          <paper-menu id="select" attr-for-selected="value" selected="{{ selected }}">
             <template is="dom-repeat" items="[[ _suggestions ]]" as="s">
-              <paper-item on-tap="_useSuggestion" value="[[s]]">[[_labelOf(s)]]</paper-item>
+              <paper-item value="[[s]]">[[_labelOf(s)]]</paper-item>
             </template>
           </paper-menu>
         </paper-material>

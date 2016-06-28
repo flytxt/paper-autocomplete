@@ -7,16 +7,17 @@
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../paper-autocomplete.html">
     <link rel="import" href="../../paper-input/paper-input.html">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
   </head>
   <body>
 
     <template is="dom-bind" id="app">
       <p>An example of <code>&lt;paper-autocomplete&gt;</code>:</p>
 
-      <paper-autocomplete class="layout flex" supplier="[[ getList ]]" value="[[ name ]]">
-        <paper-input class="flex" label="Country" value="[[ name ]]"></paper-input>
+      <iron-ajax id="users" url="http://jsonplaceholder.typicode.com/users" handle-as="json"></iron-ajax>
+
+      <paper-autocomplete id="typeahead" source="[[ getList ]]" attr-for-value="id" value="[[ name ]]">
+        <paper-input class="flex" label="Users" auto-validate required error-message="This field is required"></paper-input>
       </paper-autocomplete>
 
     </template>
@@ -26,13 +27,13 @@
 
       app.getList = function(value, callBack) {
         var suggestions = [];
-        for (var j = 0; j < 3 + Math.random() * 4; j++) {
-          var blah = "blah";
-          for (var i = 0; i < Math.random() * 3; i++)
-              blah += " " + blah;
-          suggestions.push(blah);
-        }
-        callBack(suggestions);
+        app.$.users.addEventListener('response', function(e) {
+          var filtered = e.detail.response.filter(function(r) {
+            return r.name.indexOf(value) > -1;
+          });
+          callBack(filtered);
+        });
+        app.$.users.generateRequest();
       };
 
     </script>
