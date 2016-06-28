@@ -172,7 +172,6 @@ Polymer({
    * @return {string} value.
    */
   setValue: function(hint) {
-    var me = this;
     return typeof hint === 'object' && hint ? hint[this.attrForValue] : hint || '';
   },
 
@@ -194,7 +193,7 @@ Polymer({
    */
   _labelOf: function(hint) {
     if (this.attrForLabel === null) { return hint || ''; }
-    return hint && typeof hint === 'object'? hint[this.attrForLabel] : hint || '';
+    return hint && typeof hint === 'object' ? hint[this.attrForLabel] : hint || '';
   },
 
   /**
