@@ -91,7 +91,7 @@ The following custom properties and mixins are available for styling:
         <paper-material class="dropdown-content">
           <paper-menu id="select" attr-for-selected="value" selected="{{ selected }}">
             <template is="dom-repeat" items="[[ _suggestions ]]" as="s">
-              <paper-item value="[[s]]">[[_labelOf(s)]]</paper-item>
+              <paper-item value="[[s]]" on-tap="_useSuggestion">[[_labelOf(s)]]</paper-item>
             </template>
           </paper-menu>
         </paper-material>

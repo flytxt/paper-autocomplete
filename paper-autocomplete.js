@@ -22,6 +22,25 @@ Polymer({
     },
 
     /**
+     * Returns true if the value is valid.
+     * 
+     * If `autoValidate` is true, the `valid` attribute is managed automatically, which can clobber attempts to manage it manually.
+     */
+    valid: {
+      type: Boolean,
+      value: true,
+      notify: true
+    },
+
+    /**
+     * Set to true to auto-validate the input value.
+     */
+    autoValidate: {
+      type: Boolean,
+      value: false
+    },
+
+    /**
      * Value to be set in the element for each selection
      */
     attrForValue: {
@@ -81,8 +100,7 @@ Polymer({
      */
     selected: {
       type: Object,
-      notify: true,
-      observer: '_useSuggestion'
+      notify: true
     },
 
     /**
@@ -101,6 +119,8 @@ Polymer({
       notify: true
     }
   },
+  behaviors: [Polymer.IronFormElementBehavior],
+  observers: ['_setValid(valid, _paperInput)'],
 
   /**
    * Prepares select/option item's value.
@@ -111,7 +131,7 @@ Polymer({
    */
   _update: function() {
     var me = this;
-    this.source(this.input.value, function(suggestions) {
+    this.source(me._paperInput.value, function(suggestions) {
       if (suggestions.length <= 0) { return; }
       me._suggestions = suggestions;
       if (me.focused) {
@@ -141,7 +161,11 @@ Polymer({
    * Clears the input text
    */
   _clear: function() {
-    this.selected = undefined;
+    var me = this;
+    me.value = '';
+    me.input.value = me.value;
+    me._paperInput.value = me.value;
+    me.selected = undefined;
     this._close();
   },
 
@@ -202,10 +226,12 @@ Polymer({
    * @param {event}
    *          tap event.
    */
-  _useSuggestion: function(item) {
+  _useSuggestion: function(e) {
     var me = this;
-    me.value = me.input.value = me.setValue(item);
-    me.paperInput.value = me._labelOf(item);
+    var item = e.target.value;
+    me.value = me.setValue(item);
+    me.input.value = me.value;
+    me._paperInput.value = me._labelOf(item);
     me._close();
   },
 
@@ -214,14 +240,50 @@ Polymer({
    */
   _setup: function() {
     var me = this;
-    var input = me.input = me.querySelector('paper-input').$.input;
-    me.paperInput = me.querySelector('paper-input');
-    this.value = input.value;
-    input.addEventListener('keyup', me._open.bind(me));
-    input.addEventListener('focus', me._open.bind(me));
-    input.addEventListener('blur', me._close.bind(me));
+    me._paperInput = me.querySelector('paper-input');
+    me.input = me.querySelector('paper-input').$.input;
+    me.input.required = me.required;
+    me.value = me.input.value;
+    me._paperInput.addEventListener('keyup', me._valueObserver.bind(me));
+    me._paperInput.addEventListener('focus', me._open.bind(me));
+    me._paperInput.addEventListener('blur', me._close.bind(me));
   },
 
+  /**
+   * Validate function to be executed during form validate
+   */
+  validate: function() {
+    this.valid = !this.required || (this.required && !!this.value);
+    return this.valid;
+  },
+
+  /**
+   * observer for valid attribute
+   */
+  _setValid: function(valid, input) {
+    input.invalid = !valid;
+  },
+
+  /**
+   * If `autoValidate` is true, then validates the element.
+   */
+  _handleAutoValidate: function() {
+    if (this.autoValidate) {
+      this.validate();
+    }
+  },
+
+  /**
+   * observer for input value, this clears the element's selected option & value if it is not matching with the selected value.
+   */
+  _valueObserver: function() {
+    var me = this;
+    if (me.value !== me._paperInput.value) {
+      me.selected = undefined;
+      me.value = '';
+    }
+    me._open();
+  },
   attached: function() {
     this._setup();
   }
