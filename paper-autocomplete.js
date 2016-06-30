@@ -117,6 +117,13 @@ Polymer({
     source: {
       type: Object,
       notify: true
+    },
+
+    /**
+     * The paper-input element
+     */
+    _paperInput: {
+      type: Object
     }
   },
   behaviors: [Polymer.IronFormElementBehavior],
