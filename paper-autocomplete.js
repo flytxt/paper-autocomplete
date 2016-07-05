@@ -83,7 +83,6 @@ Polymer({
      */
     value: {
       type: String,
-      reflectToAttribute: true,
       notify: true
     },
 
@@ -127,7 +126,7 @@ Polymer({
     }
   },
   behaviors: [Polymer.IronFormElementBehavior],
-  observers: ['_setValid(valid, _paperInput)'],
+  observers: ['_setValid(valid, _paperInput)', '_useSuggestion(selected)'],
 
   /**
    * Prepares select/option item's value.
@@ -233,9 +232,10 @@ Polymer({
    * @param {event}
    *          tap event.
    */
-  _useSuggestion: function(e) {
+  _useSuggestion: function(item) {
     var me = this;
-    var item = e.target.value;
+    me._paperInput = me.querySelector('paper-input');
+    me.input = me._paperInput.$.input;
     me.value = me.setValue(item);
     me.input.value = me.value;
     me._paperInput.value = me._labelOf(item);
@@ -248,7 +248,7 @@ Polymer({
   _setup: function() {
     var me = this;
     me._paperInput = me.querySelector('paper-input');
-    me.input = me.querySelector('paper-input').$.input;
+    me.input = me._paperInput.$.input;
     me.input.required = me.required;
     me.value = me.input.value;
     me._paperInput.addEventListener('keyup', me._valueObserver.bind(me));

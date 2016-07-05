@@ -16,7 +16,7 @@
 
       <iron-ajax id="users" url="http://jsonplaceholder.typicode.com/users" handle-as="json"></iron-ajax>
 
-      <paper-autocomplete id="typeahead" source="[[ getList ]]" attr-for-value="id" value="[[ name ]]">
+      <paper-autocomplete id="typeahead" source="[[ getList ]]" selected="{{ selected }}" attr-for-value="id" value="{{ selectedValue }}">
         <paper-input class="flex" label="Users" auto-validate required error-message="This field is required"></paper-input>
       </paper-autocomplete>
 
