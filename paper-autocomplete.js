@@ -33,6 +33,16 @@ Polymer({
     },
 
     /**
+     * Set to true to add values apart from the existing ones chosen from the drop-down
+     * 
+     */
+    add: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true
+    },
+
+    /**
      * Set to true to auto-validate the input value.
      */
     autoValidate: {
@@ -87,7 +97,7 @@ Polymer({
     },
 
     /**
-     * If true, value will be appended to the existing one, rather than replacing it
+     * If true, value will be appended to the existing one, rather than replacing it, currently not implemented
      */
     append: {
       type: Boolean,
@@ -168,9 +178,9 @@ Polymer({
    */
   _clear: function() {
     var me = this;
-    me.value = '';
-    me.input.value = me.value;
-    me._paperInput.value = me.value;
+    //me.value = '';
+    //me.input.value = me.value;
+    //me._paperInput.value = me.value;
     me.selected = undefined;
     this._close();
   },
@@ -237,7 +247,7 @@ Polymer({
     me._paperInput = me.querySelector('paper-input');
     me.input = me._paperInput.$.input;
     me.value = me.setValue(item);
-    me.input.value = me.value;
+    //me.input.value = me.value;
     me._paperInput.value = me._labelOf(item);
     me._close();
   },
@@ -285,9 +295,14 @@ Polymer({
    */
   _valueObserver: function() {
     var me = this;
-    if (me.value !== me._paperInput.value) {
+    //adding new tags
+    if (me.add) {
+      me.selected = me._paperInput.value;
+    }
+    //from existing tags
+    if (me.value !== me._paperInput.value && !me.add) {
       me.selected = undefined;
-      me.value = '';
+      //me.value = '';
     }
     me._open();
   },

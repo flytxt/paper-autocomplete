@@ -114,5 +114,6 @@ describe('<paper-autocomplete>', function() {
       }, tH3._redrawFix * 2);
     });
   });
+  //TODO tests for edit, add config
 });
 /* jshint expr: false */
