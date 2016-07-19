@@ -136,7 +136,7 @@ Polymer({
     }
   },
   behaviors: [Polymer.IronFormElementBehavior],
-  observers: ['_setValid(valid, _paperInput)', '_useSuggestion(selected)'],
+  observers: ['_setValid(valid, _paperInput)', '_useSuggestion(selected)', '_onFocusedChanged(focused)'],
 
   /**
    * Prepares select/option item's value.
@@ -178,9 +178,6 @@ Polymer({
    */
   _clear: function() {
     var me = this;
-    //me.value = '';
-    //me.input.value = me.value;
-    //me._paperInput.value = me.value;
     me.selected = undefined;
     this._close();
   },
@@ -194,7 +191,7 @@ Polymer({
    */
   _close: function() {
     var me = this;
-    this.focused = false;
+    me.focused = false;
     clearTimeout(me._changeTimeOut);
     clearTimeout(me._closeTimeout);
     me._closeTimeout = setTimeout(function() {
@@ -247,8 +244,8 @@ Polymer({
     me._paperInput = me.querySelector('paper-input');
     me.input = me._paperInput.$.input;
     me.value = me.setValue(item);
-    //me.input.value = me.value;
     me._paperInput.value = me._labelOf(item);
+    this._handleAutoValidate();
     me._close();
   },
 
@@ -287,6 +284,15 @@ Polymer({
   _handleAutoValidate: function() {
     if (this.autoValidate) {
       this.validate();
+    }
+  },
+
+  /**
+   * Observer for 'focused', to trigger validate() if autoValidate is enabled
+   */
+  _onFocusedChanged: function() {
+    if (!this.focused) {
+      this._handleAutoValidate();
     }
   },
 
