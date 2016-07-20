@@ -64,6 +64,9 @@ The following custom properties and mixins are available for styling:
     .content-wrapper paper-icon-button {
       margin-left: -1.6em;
     }
+    .content-wrapper ::content input {
+      width: calc(100% - 1em);
+    }
     iron-dropdown {
       min-width: 10em;
       @apply(--paper-autocomplete-dropdown);
