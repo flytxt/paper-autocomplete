@@ -90,7 +90,7 @@ The following custom properties and mixins are available for styling:
       <content select="paper-input" class="dropdown-trigger"></content>
       <paper-icon-button id="clear" icon="clear" on-click="_clear" no-ripple hidden$="{{!value}}"></paper-icon-button>
     </div>
-    <template is="dom-if" if="[[ _suggestions ]]">
+    <template is="dom-if" if="[[ _suggestions.length ]]" restamp>
       <iron-dropdown id="menudropdown" horizontal-align="right" vertical-align="top">
         <paper-material class="dropdown-content">
           <paper-menu id="select" attr-for-selected="value" selected="{{ selected }}">

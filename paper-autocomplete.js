@@ -135,7 +135,7 @@ Polymer({
       type: Object
     }
   },
-  behaviors: [Polymer.IronFormElementBehavior],
+  behaviors: [Polymer.IronFormElementBehavior, Polymer.IronResizableBehavior],
   observers: ['_setValid(valid, _paperInput)', '_useSuggestion(selected)', '_onFocusedChanged(focused)'],
 
   /**
@@ -148,12 +148,13 @@ Polymer({
   _update: function() {
     var me = this;
     this.source(me._paperInput.value, function(suggestions) {
-      if (suggestions.length <= 0) { return; }
       me._suggestions = suggestions;
+      if (suggestions.length <= 0) { return; }
       if (me.focused) {
         setTimeout(function() {
           me.menuDropdown = me.querySelector('#menudropdown');
           me.menuDropdown.open();
+          me.menuDropdown.notifyResize();
           me.menuDropdown.focus();
         }, me._redrawFix);
       }
