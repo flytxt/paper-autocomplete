@@ -4,8 +4,8 @@ A type-ahead web component for Polymer 1.0.0 or above.
 Example:
 
 ```html
-<paper-autocomplete id="example" supplier="{{listProvider}}" value="{{inputValue}}">
-  <paper-input label="Example" value="{{inputValue}}"></paper-input>
+<paper-autocomplete id="example" source="{{listProvider}}" value="{{inputValue}}">
+  <paper-input label="Example"></paper-input>
 </paper-autocomplete>
 ```
 
