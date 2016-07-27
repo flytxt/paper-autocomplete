@@ -260,7 +260,7 @@ Polymer({
     me.input.required = me.required;
     me.value = me.input.value;
     me._paperInput.addEventListener('keyup', me._valueObserver.bind(me));
-    me._paperInput.addEventListener('focus', me._open.bind(me));
+    me._paperInput.addEventListener('tap', me._open.bind(me));
     me._paperInput.addEventListener('blur', me._close.bind(me));
   },
 

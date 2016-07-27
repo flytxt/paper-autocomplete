@@ -53,7 +53,7 @@ The following custom properties and mixins are available for styling:
   <style is="custom-style">
     :host {
       position: relative;
-      display: inline-block;
+      display: block;
 
       @apply(--paper-autocomplete);
     }
@@ -62,18 +62,18 @@ The following custom properties and mixins are available for styling:
       @apply(--layout-end);
     }
     .content-wrapper paper-icon-button {
-      margin-left: -1.6em;
+      position: absolute;
+      right: -0.8em;
+      bottom: 0;
     }
     .content-wrapper ::content input {
       width: calc(100% - 1em);
     }
-    iron-dropdown {
-      min-width: 10em;
-      @apply(--paper-autocomplete-dropdown);
-    }
 
     :host(.expand) iron-dropdown {
       width:100%;
+      min-width: 10em;
+      @apply(--paper-autocomplete-dropdown);
     }
 
     paper-menu {
