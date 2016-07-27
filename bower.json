@@ -14,7 +14,7 @@
   ],
   "main": "paper-autocomplete.html",
   "license": "MIT",
-  "homepage": "https://github.com/tinkerD/paper-autocomplete",
+  "homepage": "https://github.com/rosepriya-jk/paper-autocomplete",
   "ignore": [
     "/.*",
     "/test/",
