@@ -68,7 +68,7 @@ describe('<paper-autocomplete>', function() {
     });
 
     it('should open dropdown on focus', function(done) {
-      tH2.querySelector('paper-input').$.input.dispatchEvent(new CustomEvent('focus', {
+      tH2.querySelector('paper-input').$.input.dispatchEvent(new CustomEvent('tap', {
         bubbles: true
       }));
       setTimeout(function() {
@@ -77,7 +77,7 @@ describe('<paper-autocomplete>', function() {
       }, tH2._redrawFix * 2);
     });
     it('should select single value on item tap', function(done) {
-      tH2.querySelector('paper-input').$.input.dispatchEvent(new CustomEvent('focus', {
+      tH2.querySelector('paper-input').$.input.dispatchEvent(new CustomEvent('tap', {
         bubbles: true
       }));
       setTimeout(function() {
@@ -99,7 +99,7 @@ describe('<paper-autocomplete>', function() {
     });
 
     it('should select single value on item tap', function(done) {
-      tH3.querySelector('paper-input').$.input.dispatchEvent(new CustomEvent('focus', {
+      tH3.querySelector('paper-input').$.input.dispatchEvent(new CustomEvent('tap', {
         bubbles: true
       }));
       setTimeout(function() {
