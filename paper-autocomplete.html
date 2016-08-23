@@ -91,7 +91,7 @@ The following custom properties and mixins are available for styling:
       <paper-icon-button id="clear" icon="clear" on-click="_clear" no-ripple hidden$="{{!value}}"></paper-icon-button>
     </div>
     <template is="dom-if" if="[[ _suggestions.length ]]" restamp>
-      <iron-dropdown id="menudropdown" horizontal-align="right" vertical-align="top">
+      <iron-dropdown id="menudropdown" horizontal-align="right" vertical-align="top" vertical-offset="55">
         <paper-material class="dropdown-content">
           <paper-menu id="select" attr-for-selected="value" selected="{{ selected }}">
             <template is="dom-repeat" items="[[ _suggestions ]]" as="s">
