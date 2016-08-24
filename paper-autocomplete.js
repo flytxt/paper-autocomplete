@@ -153,9 +153,11 @@ Polymer({
       if (me.focused) {
         setTimeout(function() {
           me.menuDropdown = me.querySelector('#menudropdown');
-          me.menuDropdown.open();
-          me.menuDropdown.notifyResize();
-          me.menuDropdown.focus();
+          if (me.menuDropdown) {
+            me.menuDropdown.open();
+            me.menuDropdown.notifyResize();
+            me.menuDropdown.focus();
+          }
         }, me._redrawFix);
       }
     });
