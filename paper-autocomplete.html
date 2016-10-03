@@ -27,7 +27,6 @@ THE SOFTWARE.
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
-<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-input/paper-input.html">
 
 <!-- Demo
@@ -61,10 +60,11 @@ The following custom properties and mixins are available for styling:
       @apply(--layout-horizontal);
       @apply(--layout-end);
     }
-    .content-wrapper paper-icon-button {
+    .content-wrapper .search-icons {
       position: absolute;
-      right: -0.8em;
-      bottom: 0;
+      right: 0;
+      bottom: 0.5em;
+      color: var(--search-icon-color);
     }
     .content-wrapper ::content input {
       width: calc(100% - 1em);
@@ -87,7 +87,10 @@ The following custom properties and mixins are available for styling:
   <template>
     <div class="content-wrapper">
       <content select="paper-input" class="dropdown-trigger"></content>
-      <paper-icon-button id="clear" icon="clear" on-click="_clear" no-ripple hidden$="{{!value}}"></paper-icon-button>
+      <div class="layout horizontal search-icons">
+        <iron-icon id="clear" icon="clear" on-click="_clear" no-ripple hidden$="{{!value}}"></iron-icon>
+        <iron-icon icon="search"></iron-icon>
+      </div>
     </div>
     <template is="dom-if" if="[[ _suggestions.length ]]" restamp>
       <iron-dropdown id="menudropdown" dynamic-align horizontal-align="right" vertical-align="top" vertical-offset="55">
