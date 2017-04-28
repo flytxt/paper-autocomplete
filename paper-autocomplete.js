@@ -270,6 +270,7 @@ Polymer({
    * Validate function to be executed during form validate
    */
   validate: function() {
+    this.valid = true;
     this.valid = !this.required || (this.required && !!this.value);
     return this.valid;
   },
