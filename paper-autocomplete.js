@@ -332,7 +332,7 @@ Polymer({
   },
   attached: function() {
     var me = this;
-    me.async(() => {
+    me.async(function() {
       me._setup();
     });
   }
