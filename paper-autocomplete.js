@@ -133,10 +133,15 @@ Polymer({
      */
     _paperInput: {
       type: Object
+    },
+    readonly: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true
     }
   },
   behaviors: [Polymer.IronFormElementBehavior, Polymer.IronResizableBehavior],
-  observers: ['_setValid(valid, _paperInput)', '_useSuggestion(selected)', '_onFocusedChanged(focused)'],
+  observers: ['_setValid(valid, _paperInput)', '_useSuggestion(selected)', '_onFocusedChanged(focused)', '_observeReadonly(readonly, _paperInput)'],
 
   /**
    * Prepares select/option item's value.
@@ -261,11 +266,20 @@ Polymer({
     me.input = me._paperInput.$.input;
     me.input.required = me.required;
     me.value = me.input.value;
-    me._paperInput.addEventListener('keyup', me._valueObserver.bind(me));
-    me.addEventListener('tap', me._open.bind(me));
-    me.addEventListener('blur', me._close.bind(me));
   },
-
+  _observeReadonly: function(readonly, _paperInput) {
+    var me = this;
+    me.unlisten(me._paperInput, 'keyup', '_valueObserver');
+    me.unlisten(me, 'tap', '_open');
+    me.unlisten(me, 'blur', '_close');
+    me.unlisten(me.$$('#clear'), 'tap', '_clear');
+    if(!readonly) {
+      me.listen(me._paperInput, 'keyup', '_valueObserver');
+      me.listen(me, 'tap', '_open');
+      me.listen(me, 'blur', '_close');
+      me.listen(me.$$('#clear'), 'tap', '_clear');
+    }
+  },
   /**
    * Validate function to be executed during form validate
    */
@@ -317,6 +331,9 @@ Polymer({
     me._open();
   },
   attached: function() {
-    this._setup();
+    var me = this;
+    me.async(() => {
+      me._setup();
+    });
   }
 });
