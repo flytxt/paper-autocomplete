@@ -49,6 +49,7 @@ The following custom properties and mixins are available for styling:
  -->
 
 <dom-module id="paper-autocomplete">
+  <template>  
   <style is="custom-style">
     :host {
       position: relative;
@@ -87,7 +88,7 @@ The following custom properties and mixins are available for styling:
      @apply(--paper-autocomplete-item);
     }
   </style>
-  <template>
+
     <div class="content-wrapper">
       <content select="paper-input" class="dropdown-trigger"></content>
       <div class="layout horizontal search-icons">
